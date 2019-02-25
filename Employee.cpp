@@ -1,5 +1,15 @@
 #include "Employee.h"
 
+Employee createEmployee()
+{
+	Employee employee;
+	employee.firstName = "\0";
+	employee.lastName = "\0";
+	employee.phoneNumber = "\0";
+	employee.salary = 0;
+		return employee;
+}
+
 Employee createEmployee(char* firstName, char* lastName, char* phoneNumber, double salary)
 {
 	Employee employee;

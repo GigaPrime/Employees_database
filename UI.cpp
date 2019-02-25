@@ -63,23 +63,46 @@ double salaryInput()
 
 void menu()
 {
-	char selection;
-	int options = 6;
+	int selection;
+	int subSelection;
 
 	cout << "Welcome to employee database creation:" << endl << endl;
 	cout << "What would You like to do?" << endl;
+	//---------------------------------------------------
+	cout << "Create new data base - select \'1\'" << endl;
+	cout << "Read data base from file - select \'2\'" << endl;
+	cout << "Save data base to file - select \'3\'" << endl;
+	cout << "Print out employee database - select \'4\'" << endl;
+	//---------------------------------------------------
 	cout << "Create new employee - select \'1\'" << endl;
-	cout << "Print out employee database - select \'2\'" << endl;
+	
 	cout << "Select one existing by second name - select \'3\'" << endl;
 	cout << "Select by salary range select \'4\'" << endl;
 	cout << "Delete one existing - select \'5\'" << endl;
 	cout << "Sort database - select \'6\'" << endl;
-	cout << "Save to file - select \'7\'" << endl;
-	cout << "Read from file - select \'8\'" << endl;
-
+	
 	cin >> selection;
 
-	//for(int i = 0; i < )
+	switch (selection)
+	{
+	case 1:
+		createDataBase(INITIAL_SIZE);
+		cout << "Data base created with initial size of " << INITIAL_SIZE << " elements" << endl;
+		system("cls");
+
+		break;
+	case 2:
+		// readFormFile func
+		break;
+	case 3:
+		// saveToFile func
+		break;
+	case 4:
+		//print();
+	default:
+		;
+		break;
+	}
 }
 
 void* selectMenuItem(int selection)

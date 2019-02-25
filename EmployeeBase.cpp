@@ -5,10 +5,10 @@ using namespace std;
 
 Employee* createDataBase(int initialSize)
 {
-	Employee* initialDataBase = new Employee[initialSize];
+	Employee* initialDataBase = new Employee[initialSize] ;
 	for (int i = 0; i < initialSize; i++)
 	{
-		remove(initialDataBase, i);
+		initialDataBase[i] = createEmployee();
 	}
 	return initialDataBase;
 }
@@ -21,7 +21,7 @@ int getLenght(Employee* dataBase)
 bool isEmpty(Employee* dataBase)
 {
 	for (int i = 0; i < getLenght(dataBase); i++)
-		if (dataBase[i].firstName == '\0' && dataBase[i].lastName == '\0')
+		if (dataBase[i].firstName == nullptr && dataBase[i].lastName == nullptr)
 			return true;
 		else
 			return false;
@@ -29,7 +29,7 @@ bool isEmpty(Employee* dataBase)
 
 bool isInRange(Employee* dataBase, int index)
 {
-	if (index - 1 <= getLenght(dataBase))
+	if (index <= getLenght(dataBase))
 		return true;
 	else
 		return false;
@@ -37,7 +37,7 @@ bool isInRange(Employee* dataBase, int index)
 
 bool isElementEmpty(Employee* dataBase, int index)
 {
-	if (dataBase[index].firstName == '\0' && dataBase[index].lastName == '\0' && isInRange(dataBase, index))
+	if (dataBase[index].firstName == "\0" && dataBase[index].lastName == "\0" && isInRange(dataBase, index))
 		return true;
 	else
 		return false;
@@ -52,8 +52,7 @@ int getNextEmptyElement(Employee* database)
 
 Employee* increaseDataBaseSize(Employee* initialBase)
 {
-	const int increaseCoef = 2;
-	Employee* increasedDataBase = new Employee[getLenght(initialBase) * increaseCoef];
+	Employee* increasedDataBase = new Employee[getLenght(initialBase) * INCREASE_COEF];
 	return increasedDataBase;
 }
 
@@ -62,25 +61,35 @@ Employee* copyDataBase(Employee* initialBase, Employee* copiedBase)
 	try 
 	{
 		if (_msize(initialBase) > _msize(copiedBase))
-			throw "Not enough memory in target base";
+			throw "--Not enough memory in target base--";
 	}
 	catch (char* exeption) { cout << exeption << endl; }
 	for (int i = 0; i < getLenght(initialBase); i++)
 		copiedBase[i] = initialBase[i];
+	return copiedBase;
+}
+
+Employee shrinkToFit(Employee dataBase)
+{
+	return dataBase;
 }
 
 Employee pop(Employee* dataBase, int index)
 {
-	try
+	Employee blank = createEmployee();
+
+	if (!isInRange(dataBase, index))
 	{
-		if (!isInRange(dataBase, index))
-			throw "Out of range";
-		else if (dataBase[index].firstName == '\0' && dataBase[index].lastName == '\0')
-			throw "No such record";
-		else
-			return dataBase[index];
+		cout << OUT_OF_RANGE;
+		return blank;
 	}
-	catch (char* exeption) { cout << exeption << endl; }
+	else if (dataBase[index].firstName == "\0" && dataBase[index].lastName == "\0")
+	{
+		cout << EMPTY_RECORD;
+		return blank;
+	}
+	else
+		return dataBase[index];
 }
 
 Employee* pop(Employee* database, double salary)
@@ -94,10 +103,9 @@ Employee* pop(Employee* database, double salary)
 	Employee* newDataBase = createDataBase(range);
 
 	for (int i = 0; i < getLenght(database); i++)
-	{
 		if (database[i].salary == salary)
 			newDataBase[getNextEmptyElement(newDataBase)] = database[i];
-	}
+	
 	return newDataBase;
 }
 	
@@ -111,12 +119,9 @@ void remove(Employee* dataBase, int index)
 	try
 	{
 		if (!isInRange(dataBase, index))
-			throw "Out of range";
+			throw OUT_OF_RANGE;
 		else
-		{
-			dataBase[index].firstName = '\0';
-			dataBase[index].lastName = '\0';
-		}
+			dataBase[index] = createEmployee();
 	}
 	catch (char* exeption) { cout << exeption << endl; }
 }
@@ -142,11 +147,12 @@ void sort(Employee* dataBase)
 
 int isNameBigger(Employee* dataBase, int firstIndex, int secondIndex)
 {
+	int nameLenght2 = 0;
 	int nameLenght1 = 0;
+
 	do nameLenght1++;
 	while (dataBase[firstIndex].lastName[nameLenght1] != '\0');
-
-	int nameLenght2 = 0;
+	
 	do nameLenght2++;
 	while (dataBase[secondIndex].lastName[nameLenght2] != '\0');
 
@@ -154,7 +160,7 @@ int isNameBigger(Employee* dataBase, int firstIndex, int secondIndex)
 
 	for (int i = 0; i < smaller; )
 	{
-		if (dataBase[firstIndex].lastName[i] == dataBase[secondIndex].lastName[i])
+		if (dataBase[firstIndex].lastName[i] == dataBase[secondIndex].lastName[i] || dataBase[firstIndex].lastName == "\0" || dataBase[secondIndex].lastName == "\0")
 			i++;
 		else if (dataBase[firstIndex].lastName[i] > dataBase[secondIndex].lastName[i])
 			return firstIndex;

@@ -1,5 +1,5 @@
-#pragma 
-#include "constants.h"
+#pragma once
+#include "Constants.h"
 
 struct Employee
 {
@@ -9,6 +9,7 @@ struct Employee
 	double salary;
 };
 
+Employee createEmployee();
 Employee createEmployee(char*, char*, char*, double);		//+
 void setFirstName(Employee&, char*);						//+
 void setLastName(Employee&, char*);							//+
